@@ -26,7 +26,7 @@ def step(split, epoch, opt, dataLoader, model, criterion, optimizer = None):
     input_var = torch.autograd.Variable(input).float().cuda()
     target3D_var = torch.autograd.Variable(target3D).float().cuda()
 
-    output = model(intput_var)
+    output = model(input_var)
 #    reg = output[opt.nStack]
 
     optimizer.zero_grad()

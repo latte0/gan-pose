@@ -12,7 +12,7 @@ class H36M(data.Dataset):
     print( '==> initializing 3D {} data.'.format(split) )
     annot = {}
     tags = ['action', 'bbox', 'camera', 'id', 'joint_2d', 'joint_3d_mono', 'subaction', 'subject', 'istrain']
-    f = File('./after/annotSampleTest.h5', 'r')
+    f = File('./images/annotSampleTest.h5', 'r')
     for tag in tags:
       annot[tag] = np.asarray(f[tag]).copy()
     f.close()
@@ -66,6 +66,8 @@ class H36M(data.Dataset):
     pts, c, s, pts_3d, pts_3d_mono = self.GetPartInfo(index)
     pts_3d[7] = (pts_3d[12] + pts_3d[13]) / 2
 
+#    print(img.shape)
+
     inp = Crop(img, c, s, 0, ref.inputRes) / 256.
     outMap = np.zeros((ref.nJoints, ref.outputRes, ref.outputRes))
     outReg = np.zeros((ref.nJoints, 3))
@@ -76,7 +78,7 @@ class H36M(data.Dataset):
       outReg[i, 2] = pt[2] / ref.outputRes * 2 - 1
 
     inp = torch.from_numpy(inp)
-    return inp, outMap, outReg, pts_3d_mono
+    return inp, outMap, outReg#, pts_3d_mono
 
   def __len__(self):
     return self.nSamples

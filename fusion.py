@@ -13,7 +13,7 @@ class Fusion(data.Dataset):
     self.dataset3D = H36M(opt, split)
     self.nImages3D = len(self.dataset3D)
 
-    print '#Images2D {}, #Images3D {}'.format(self.nImages2D, self.nImages3D)
+    print '#Images3D {}'.format( self.nImages3D)
   def __getitem__(self, index):
       return self.dataset3D[index]
 

@@ -41,6 +41,9 @@ class AlexNet(nn.Module):
         h = self.fc8(h)
         return h.view(-1, self.Nj, 3)
 
+
+
+
 class Generator(nn.Module):
     def __init__(self, in_channels, Nj):
         super(Generator, self).__init__()

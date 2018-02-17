@@ -23,7 +23,7 @@ def main():
     if opt.loadModel != 'none'
         model = torch.load(opt.loadModel).cuda()
     else:
-#        model = AlexNet(opt.nStack, opt.nModules, opt.nFeats, opt.nRegModules).cuda()
+        model = AlexNet(ref.nJoints).cuda()
 
     criterion = torch.nn.MSELoss().cuda()
     optimizer = torch.optim.RMSprop(model.parameters(), opt.LR,
@@ -39,9 +39,9 @@ def main():
         num_workers = int(ref.nThreads)
     )
 
-    if opt.test:
-        val(0, opt, val_loader, model, criterion)
-        return
+#    if opt.test:
+#        val(0, opt, val_loader, model, criterion)
+#        return
 
     train_loader = torch.utils.data.DataLoader(
         Fusion(opt, 'train'),
@@ -52,4 +52,3 @@ def main():
 
     for epoch in range(1, opt.nEpochs + 1):
             loss_train, acc_train, mpjpe_train, loss3d_train = train(epoch, opt, train_loader, model, criterion, optimizer)
-  

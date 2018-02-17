@@ -3,8 +3,8 @@ import numpy as np
 import ref
 import torch
 import cv2
-from mpii import MPII
-from h36m import H36M
+#from mpii import MPII
+from datasets.h36m import H36M
 
 class Fusion(data.Dataset):
   def __init__(self, opt, split):
@@ -13,7 +13,7 @@ class Fusion(data.Dataset):
     self.dataset3D = H36M(opt, split)
     self.nImages3D = len(self.dataset3D)
 
-    print '#Images3D {}'.format( self.nImages3D)
+    print( '#Images3D {}'.format( self.nImages3D ) )
   def __getitem__(self, index):
       return self.dataset3D[index]
 

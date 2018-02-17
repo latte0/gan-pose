@@ -6,13 +6,14 @@ import torch
 import torch.utils.data
 from opts import opts
 import ref
-from models.hg_3d import HourglassNet3D
 from utils.utils import adjust_learning_rate
 from datasets.fusion import Fusion
 from datasets.h36m import H36M
-from datasets.mpii import MPII
+#from datasets.mpii import MPII
 from utils.logger import Logger
 from train import train, val
+from Network import AlexNet 
+
 
 def main():
     opt = opts().parse()
@@ -20,7 +21,7 @@ def main():
 
     #logger = L
 
-    if opt.loadModel != 'none'
+    if opt.loadModel != 'none':
         model = torch.load(opt.loadModel).cuda()
     else:
         model = AlexNet(ref.nJoints).cuda()
@@ -52,3 +53,6 @@ def main():
 
     for epoch in range(1, opt.nEpochs + 1):
             loss_train, acc_train, mpjpe_train, loss3d_train = train(epoch, opt, train_loader, model, criterion, optimizer)
+
+if __name__ == '__main__':
+  main()

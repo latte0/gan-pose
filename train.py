@@ -7,6 +7,8 @@ from utils.debugger import Debugger
 import cv2
 import ref
 from progress.bar import Bar
+from mse import mean_squared_error
+
 
 def step(split, epoch, opt, dataLoader, model, criterion, optimizer = None):
 
@@ -30,7 +32,7 @@ def step(split, epoch, opt, dataLoader, model, criterion, optimizer = None):
 #    reg = output[opt.nStack]
 
     optimizer.zero_grad()
-    loss = mean_squared_error(output, target, self.use_visibility)
+    loss = mean_squared_error(output, target3D )
     loss.backward()
     optimizer.step()
 

@@ -15,6 +15,6 @@ class MeanSquaredError(nn.Module):
         diff = diff.view(-1)
         return diff.dot(diff)/N
 
-def mean_squared_error(x, t, v, use_visibility=False):
+def mean_squared_error(x, t):
 
     return MeanSquaredError()(x, t)

@@ -20,6 +20,8 @@ def step(split, epoch, opt, dataLoader, model, criterion, optimizer = None):
   nIters = len(dataLoader)
   bar = Bar('==>', max=nIters)
 
+  print("aaaaaaaaaaaaaaaaa")
+
   for i, (input, target3D, meta) in enumerate(dataLoader):
     input_var = torch.autograd.Variable(input).float().cuda()
     target3D_var = torch.autograd.Variable(target3D).float().cuda()
@@ -31,6 +33,8 @@ def step(split, epoch, opt, dataLoader, model, criterion, optimizer = None):
     loss = mean_squared_error(output, target, self.use_visibility)
     loss.backward()
     optimizer.step()
+
+    print(i)
 
     Bar.suffix = '{split} Epoch: [{0}][{1}/{2}]| Total: {total:} | ETA: {eta:} | Loss {loss.avg:.6f} | Loss3D {loss3d.avg:.6f} | Acc {Acc.avg:.6f} | Mpjpe {Mpjpe.avg:.6f} ({Mpjpe.val:.6f})'.format(epoch, i, nIters, total=bar.elapsed_td, eta=bar.eta_td, loss=Loss, Acc=Acc, split = split, Mpjpe=Mpjpe, loss3d = Loss3D)
     bar.next()

@@ -12,7 +12,7 @@ class H36M(data.Dataset):
     print( '==> initializing 3D {} data.'.format(split) )
     annot = {}
     tags = ['action', 'bbox', 'camera', 'id', 'joint_2d', 'joint_3d_mono', 'subaction', 'subject', 'istrain']
-    f = File('../after/annotSampleTest.h5', 'r')
+    f = File('./after/annotSampleTest.h5', 'r')
     for tag in tags:
       annot[tag] = np.asarray(f[tag]).copy()
     f.close()

@@ -54,5 +54,24 @@ def main():
     for epoch in range(1, opt.nEpochs + 1):
             loss_train, acc_train, mpjpe_train, loss3d_train = train(epoch, opt, train_loader, model, criterion, optimizer)
 
+
+            logger.scalar_summary('loss_train', loss_train, epoch)
+            logger.scalar_summary('acc_train', acc_train, epoch)
+            logger.scalar_summary('mpjpe_train', mpjpe_train, epoch)
+            logger.scalar_summary('loss3d_train', loss3d_train, epoch)
+
+            if epoch % opt.valIntervals == 0:
+                   loss_val, acc_val, mpjpe_val, loss3d_val = val(epoch, opt, val_loader, model, criterion)
+                   logger.scalar_summary('loss_val', loss_val, epoch)
+                   logger.scalar_summary('acc_val', acc_val, epoch)
+                   logger.scalar_summary('mpjpe_val', mpjpe_val, epoch)
+                   logger.scalar_summary('loss3d_val', loss3d_val, epoch)
+                   torch.save(model, os.path.join(opt.saveDir, 'model_{}.pth'.format(epoch)))
+                   logger.write('{:8f} {:8f} {:8f} {:8f} {:8f} {:8f} {:8f} {:8f} \n'.format(loss_train, acc_train, mpjpe_train, loss3d_train, loss_val, acc_val, mpjpe_val, loss3d_val))
+            else:
+                   logger.write('{:8f} {:8f} {:8f} {:8f} \n'.format(loss_train, acc_train, mpjpe_train, loss3d_train))
+                   adjust_learning_rate(optimizer, epoch, opt.dropLR, opt.LR)
+                   logger.close()
+
 if __name__ == '__main__':
   main()

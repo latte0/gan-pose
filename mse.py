@@ -9,6 +9,11 @@ class MeanSquaredError(nn.Module):
         self.use_visibility = use_visibility
 
     def forward(self, *inputs):
+        x, t = inputs 
+        #print(x)
+        #print(t)
+        #print(x.shape)
+        #print(t.shape)
         x, t = inputs
         diff = x - t
         N = diff.numel()/2

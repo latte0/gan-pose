@@ -8,6 +8,13 @@ import cv2
 import ref
 from progress.bar import Bar
 from mse import mean_squared_error
+import os
+
+def _checkpoint( model, optimizer ):
+  filename = os.path.join( 'save' )
+ # torch.save({'epoch': epoch + 1, 'logger': logger.state_dict()}, filename + '.iter')
+  torch.save(model.state_dict(), filename + '.model')
+  torch.save(optimizer.state_dict(), filename + '.state')
 
 
 def step(split, epoch, opt, dataLoader, model, criterion, optimizer = None):
@@ -51,6 +58,9 @@ def step(split, epoch, opt, dataLoader, model, criterion, optimizer = None):
     bar.next()
     bar.finish()
 
+    if i%500 == 0:
+        _checkpoint( model, optimizer)
+
   return Loss.avg #, Acc.avg, Mpjpe.avg, Loss3D.avg
 
 
@@ -59,3 +69,6 @@ def train(epoch, opt, train_loader, model, criterion, optimizer):
 
 def val(epoch, opt, val_loader, model, criterion):
   return step('val', epoch, opt, val_loader, model, criterion)
+
+
+

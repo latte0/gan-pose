@@ -22,10 +22,14 @@ var/
 wheels/
 images/
 after/
+save/
 *.egg-info/
 .installed.cfg
 *.egg
 MANIFEST
+
+save*
+*.save
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

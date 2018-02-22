@@ -43,13 +43,15 @@ def step(split, epoch, opt, dataLoader, model, criterion, optimizer = None):
 
 
     Loss.update(loss, input.size(0))
-    Acc.update(Accuracy((output.data).cpu().numpy(), (target3D_var.data).cpu().numpy()))
+    #Acc.update(Accuracy((output.data).cpu().numpy(), (target3D_var.data).cpu().numpy()))
 
-    Bar.suffix = '{split} Epoch: [{0}][{1}/{2}]| Total: {total:} | ETA: {eta:} | Loss {loss.avg:.6f} | Loss3D {loss3d.avg:.6f} | Acc {Acc.avg:.6f} | Mpjpe {Mpjpe.avg:.6f} ({Mpjpe.val:.6f})'.format(epoch, i, nIters, total=bar.elapsed_td, eta=bar.eta_td, loss=Loss, Acc=Acc, split = split, Mpjpe=Mpjpe, loss3d = Loss3D)
+    #Bar.suffix = '{split} Epoch: [{0}][{1}/{2}]| Total: {total:} | ETA: {eta:} | Loss {loss.avg:.6f} | Loss3D {loss3d.avg:.6f} | Acc {Acc.avg:.6f} | Mpjpe {Mpjpe.avg:.6f} ({Mpjpe.val:.6f})'.format(epoch, i, nIters, total=bar.elapsed_td, eta=bar.eta_td, loss=Loss, Acc=Acc, split = split, Mpjpe=Mpjpe, loss3d = Loss3D)
+    Bar.suffix = '{split} Epoch: [{0}][{1}/{2}]| Total: {total:} | ETA: {eta:} | Loss {lossa:} '.format(epoch, i, nIters, total=bar.elapsed_td, eta=bar.eta_td, lossa = Loss.avg, split=split)
+    #print(Loss.avg)
     bar.next()
     bar.finish()
 
-  return Loss.avg, Acc.avg, Mpjpe.avg, Loss3D.avg
+  return Loss.avg #, Acc.avg, Mpjpe.avg, Loss3D.avg
 
 
 def train(epoch, opt, train_loader, model, criterion, optimizer):

@@ -37,11 +37,13 @@ def step(split, epoch, opt, dataLoader, model, criterion, optimizer = None):
   #print("aaaaaaaaaaaaaaaaa")
 
   for i, (input, target3D, meta) in enumerate(dataLoader):
-    print(input.size())
+    #print(input.size())
     input_var = torch.autograd.Variable(input).float().cuda()
 #    target3D_var = torch.autograd.Variable(target3D).float().cuda()
     target3D_var = torch.autograd.Variable(meta).float().cuda()
 
+
+ #   print(target3D_var)
 
     output = model(input_var)
 #    reg = output[opt.nStack]

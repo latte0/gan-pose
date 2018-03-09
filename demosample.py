@@ -77,6 +77,7 @@ class H36M(data.Dataset):
       pt = Transform3D(pts_3d[i], c, s, 0, ref.outputRes)
       if pts[i][0] > 1:
         outMap[i] = DrawGaussian(outMap[i], pt[:2], ref.hmGauss)
+      outReg[i,:2] = pt[:2]
       outReg[i, 2] = pt[2] / ref.outputRes * 2 - 1
 
     inp = torch.from_numpy(inp)
@@ -98,8 +99,11 @@ def main():
 	)
 
   for i, (input, target3D, meta) in enumerate(val_loader):
+    
     print (i)
-
+    print(meta)
+    if i== 0:
+      break
 
 if __name__ == '__main__':
   main()

@@ -10,7 +10,7 @@ from utils.utils import adjust_learning_rate
 from datasets.fusion import Fusion
 from datasets.h36m import H36M
 #from datasets.mpii import MPII
-from utils.logger import Logger
+fhrom utils.logger import Logger
 from train import train, val
 from Network import AlexNet 
 

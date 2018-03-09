@@ -10,7 +10,7 @@ class opts():
     self.parser.add_argument('-expID', default = 'default', help = 'Experiment ID')
     self.parser.add_argument('-test', action = 'store_true', help = 'test')
     self.parser.add_argument('-DEBUG', type = int, default = 0, help = 'DEBUG level')
-    self.parser.add_argument('-demo', default = '', help = 'path/to/demo/image')
+    self.parser.add_argument('-demo', default = '', help = './images/demo')
 
     self.parser.add_argument('-loadModel', default = 'none', help = 'Provide full path to a previously trained model')
     self.parser.add_argument('-nFeats', type = int, default = 256, help = '# features in the hourglass')
@@ -27,7 +27,8 @@ class opts():
     self.parser.add_argument('-ratio3D', type = int, default = 0, help = 'weak label data ratio')
     self.parser.add_argument('-regWeight', type = float, default = 0, help = 'depth regression loss weight')
     self.parser.add_argument('-varWeight', type = float, default = 0, help = 'variance loss weight')
-
+    self.parser.add_argument('-resume_opt', type = bool, default = True, help = 'resuming optimizer')
+    self.parser.add_argument('-resume_model', type = bool, default = True, help = 'resuming model')
 
   def parse(self):
     self.init()

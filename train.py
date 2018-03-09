@@ -19,6 +19,10 @@ def _checkpoint( model, optimizer ):
 
 def step(split, epoch, opt, dataLoader, model, criterion, optimizer = None):
 
+  if True:
+    model.load_state_dict(torch.load("save.model"))
+    optimizer.load_state_dict(torch.load("save.state"))
+
   if split == 'train':
     model.train()
   else:
@@ -29,9 +33,11 @@ def step(split, epoch, opt, dataLoader, model, criterion, optimizer = None):
   nIters = len(dataLoader)
   bar = Bar('==>', max=nIters)
 
+
   #print("aaaaaaaaaaaaaaaaa")
 
   for i, (input, target3D, meta) in enumerate(dataLoader):
+    print(input.size())
     input_var = torch.autograd.Variable(input).float().cuda()
 #    target3D_var = torch.autograd.Variable(target3D).float().cuda()
     target3D_var = torch.autograd.Variable(meta).float().cuda()

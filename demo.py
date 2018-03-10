@@ -36,7 +36,7 @@ def main():
     print(output.size())
     reg = (output.data).cpu().numpy()#.reshape(pred.shape[0], 1)
   
-    four = lambda t: t * 4
+    four = lambda t: t * 4.57
     fourfunc = np.vectorize(four)
     reg = fourfunc(reg)
 

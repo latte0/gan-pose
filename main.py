@@ -36,7 +36,7 @@ def main():
     val_loader = torch.utils.data.DataLoader(
         H36M(opt, 'val'),
         batch_size = 1,
-        shuffle = False,
+        shuffle = True,
         num_workers = int(ref.nThreads)
     )
 

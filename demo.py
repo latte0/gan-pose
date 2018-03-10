@@ -48,7 +48,13 @@ def main():
   
     #debugger.addPoint3D(np.concatenate([pred, (reg + 1) / 2. * 256], axis = 1))
   
-    debugger.saveImg( path = "./resultimages/" + filename )
+    debugger.saveImg( path = "./result/" + filename )
+    
+    np.set_printoptions(threshold=np.inf, linewidth=np.inf)
+
+    with open("./result/" + filename[:-4] + ".out", 'w') as f:
+      f.write(np.array2string(reg, separator=', '))
+    
 
 
     """

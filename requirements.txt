@@ -1,0 +1,10 @@
+matplotlib==2.1.2
+h5py==2.7.1
+numpy==1.14.1
+opencv-python==3.4.0.12
+Pillow==5.0.0
+scipy==1.0.0
+six==1.11.0
+torch==0.3.1
+torchvision==0.2.0
+progress==1.3

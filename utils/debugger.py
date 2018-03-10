@@ -1,10 +1,8 @@
-
 import numpy as np
 import cv2
 import ref
-import matplotlib.pyplot as plt
-import mpl_toolkits.mplot3d
-from mpl_toolkits.mplot3d import Axes3D
+
+
 
 oo = 128
 def show3D(ax, points, c = (255, 0, 0)):

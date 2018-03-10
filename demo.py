@@ -18,7 +18,8 @@ def main():
   #model = torch.load("save.model").cuda()
   #else:
   #  model = torch.load('hgreg-3d.pth').cuda()
-  img = cv2.imread("images/demo/s_01_act_02_subact_01_ca_01_000001.jpg")
+  #img = cv2.imread("images/demo/s_01_act_02_subact_01_ca_01_000001.jpg")
+  img = cv2.imread("images/demo/s_11_act_16_subact_02_ca_04_001346.jpg")
   #input = torch.from_numpy(img.transpose(2, 0, 1)).float() / 256.
   c = np.ones(2) * ref.h36mImgSize / 2
   s = ref.h36mImgSize * 1.0
@@ -36,13 +37,20 @@ def main():
 #  pred = getPreds((output[-2].data).cpu().numpy())[0] * 4
   reg = (output.data).cpu().numpy()#.reshape(pred.shape[0], 1)
   
+  four = lambda t: t * 4
+  fourfunc = np.vectorize(four)
+  fourfunc(reg)
+
   print(reg)
 
-  """
+  
   debugger = Debugger()
   debugger.addImg((input[0].numpy().transpose(1, 2, 0)*256).astype(np.uint8))
-  debugger.addPoint2D(pred, (255, 0, 0))
-  debugger.addPoint3D(np.concatenate([pred, (reg + 1) / 2. * 256], axis = 1))
+  debugger.addPoint2D(reg, (255, 0, 0))
+  #debugger.addPoint3D(np.concatenate([pred, (reg + 1) / 2. * 256], axis = 1))
+  
+  debugger.saveImg()
+  """
   debugger.showImg(pause = True)
   debugger.show3D()
   """

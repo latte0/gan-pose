@@ -2,13 +2,14 @@ import torch.utils.data as data
 import numpy as np
 import ref
 import torch
+
 from h5py import File
 import cv2
 
 import torchvision.models as models
 
 class Vnect(nn.Module):
-    def __init__(self ):
+    def __init__(self , Nj):
         super(Vnect, self).__init__()
         self.resnet = models.resnet50(pretrained=True)
         self.resnet = nn.Sequential(*list(resnet.children())[:-1])
@@ -16,6 +17,8 @@ class Vnect(nn.Module):
         for param in self.resnet.parameters():
             param.requires_grad = False
 
+
+        self.Nj = Nj
         #256/8 = 32
 
         self.res5a_branch2a_new = nn.Conv2d(32 , 512, 1, stride=2, padding=1)
@@ -25,26 +28,59 @@ class Vnect(nn.Module):
         self.res5a_branch2c_new = nn.Conv2d(512, 1024, 1, stride=2, padding=1)
         self.res5a_branch1_new = nn.Conv2d(32, 1024, 4, stride=2, padding=1)
 
+        self.res5b_branch2a_new = nn.Conv2d(1024, 256, 1, stride=2, padding=1)
+        self.res5b_branch2b_new = nn.Conv2d(256, 128, 3, stride=2, padding=1)
+        self.res5b_branch2c_new = nn.Conv2d(128, 256, 1, stride=2, padding=1)
 
         #63 is  bone
-        self.res5c_branch1a = nn.ConvTranspose2d(512, 63, 4, stride=2, padding=0)
-        self.res5c_branch2a = nn.ConvTranspose2d(1024, 128, 4, stride=2, padding=0)
+        self.res5c_branch1a = nn.ConvTranspose2d(256, self.Nj*3, 4, stride=2, padding=0)
+        self.res5c_branch2a = nn.ConvTranspose2d(256, 128, 4, stride=2, padding=0)
+
+
+
+        # humei
+        self.res5c_branch2b = nn.Conv2d(128, 128, 1, stride=2, padding=1)
+        self.res5c_branch2c = nn.Conv2d (128, self.Nj*4, 1, stride=2, padding=1)
+
+        self.bnc1 = nn.BatchNorm2d(self.Nj*3)
+
 
 
     def forward(self, x):
 
+        # Residual block 5a
         ge0 = resnet(x)
-
-
         ge1 = F.leaky_relu( self.res5a_branch2a_new(ge0), negative_slope=0.2 )
         ge2 = F.leaky_relu( self.res5a_branch2b_new(ge1), negative_slope=0.2 )
-
         ge3 = self.res5a_branch2c_new(ge2)
-
         ge1_1 = self.res5a_branch1_new(ge0)
-
         ge4 = ge3 + ge1_1
 
+        # Residual block 5b
+        ge5 = F.leaky_relu( self.res5b_branch2a_new(ge4), negative_slope=0.2 )
+        ge6 = F.leaky_relu( self.res5b_branch2b_new(ge5), negative_slope=0.2 )
+        ge7 = F.leaky_relu( self.res5b_branch2c_new(ge6), negative_slope=0.2 )
+
+        ge8 = F.leaky_relu( self.bnc1(self.res5c_branch2a(ge7), negative_slope=0.2) )
+
+        #this is bone
+        ge8_1 = self.res5c_branch1a(ge7)
+
+        self.res5c_delta_x, self.res5c_delta_y, self.res5c_delta_z = torch.split(self.res5c_branch1a, 3, dim=3)
+
+        self.res5c_branch1a_sqr = matmul(ge8_1, ge8_1)
+        self.res5c_delta_x_sqr, self.res5c_delta_y_sqr, self.res5c_delta_z_sqr = torch.split(self.res5c_branch1a_sqr, 3, dim=3)
+
+        self.res5c_bone_length_sqr =  ( self.res5c_delta_x_sqr + self.res5c_delta_y_sqr) + self.res5c_delta_z_sqr)
+        self.res5c_bone_length = torch.sqrt(self.res5c_bone_length_sqr)
+
+
+        ge9 = torch.cat((self.bn5c_branch2a, self.res5c_delta_x, self.res5c_delta_y, self.res5c_delta_z, self.res5c_bone_length), 3)
+
+        ge10 = F.leaky_relu( self.res5c_branch2b(ge9), negative_slope=0.2 )
+        ge11 = self.res5c_branch2c(ge10)
+
+        self.heapmap, self.x_heatmap, self.y_heatmap, self.z_heatmap = torch.split(ge11, 4, dim=3)
 
 
         """

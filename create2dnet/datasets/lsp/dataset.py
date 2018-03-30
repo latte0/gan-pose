@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-""" LSP Dataset. """
-
 import os
 import cv2
 import numpy as np
@@ -10,11 +7,6 @@ from modules.datasets.common.dataset import Dataset
 
 
 class LSPDataset(Dataset):
-    """ LSP dataset: 'Leeds Sports Pose Dataset'.
-
-    Args:
-        path (str): A path to download datasets.
-    """
 
     def __init__(self, path='orig_data'):
         super(LSPDataset, self).__init__(

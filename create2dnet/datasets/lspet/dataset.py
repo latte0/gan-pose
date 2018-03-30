@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-""" LSPET Dataset. """
 
 import os
 import cv2

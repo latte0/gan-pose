@@ -6,7 +6,7 @@
 destination='./'
 # The subjects you want to download the train data for.
 # Start with a few if all you want to do is examine the data
-subjects=(1 2)
+subjects=(1 2 3 4 5)
 #subjects=(1 2 3 4 5 6 7 8)
 # Set if you want to download the camera views
 # that were not used for VNect
@@ -17,4 +17,4 @@ download_extra_ceiling_cameras=0
 download_masks=1
 # Set if you agree with the license conditions and want
 # to proceed with downloading the dataset
-ready_to_download=0
+ready_to_download=1

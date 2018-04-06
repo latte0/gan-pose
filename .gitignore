@@ -113,3 +113,11 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# compression
+*.zip
+*.zip*
+
+# dataset
+.create2dnet/orig_data
+

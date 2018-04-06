@@ -5,7 +5,7 @@ import argparse
 import sys
 
 sys.path.append("./")
-from modules.datasets import DatasetGenerator
+from datasets import DatasetGenerator
 
 
 def main():

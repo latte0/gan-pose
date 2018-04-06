@@ -6,9 +6,8 @@ import cv2
 import numpy as np
 import tqdm
 
-from modules.errors import SaveImageFailed
-from modules.datasets.lsp.dataset import LSPDataset
-from modules.datasets.lspet.dataset import LSPETDataset
+from datasets.lsp.dataset import LSPDataset
+from datasets.lspet.dataset import LSPETDataset
 
 
 class DatasetGenerator(object):
@@ -30,7 +29,7 @@ class DatasetGenerator(object):
         self.crop_size = crop_size
         self.path = path
         self.output = output
-        self.datasets = (LSPDataset(path), LSPETDataset(path))
+        self.datasets = (  LSPDataset( os.path.join( path, "lsp_dataset" ) ), LSPETDataset( os.path.join( path, "lspet_dataset" ) ))
 
     def _pad_image(self, image, joint):
         height, width, _ = image.shape
@@ -39,7 +38,7 @@ class DatasetGenerator(object):
         left, top = residual/2
         right, bottom = residual - residual/2
         padded_image = cv2.copyMakeBorder(
-            image, top, bottom, left, right, cv2.BORDER_CONSTANT, value=0)
+            image, int(top), int(bottom), int(left), int(right), cv2.BORDER_CONSTANT, value=0)
         moved_joint = joint + (left, top, 0)
         return padded_image, moved_joint
 
@@ -93,7 +92,7 @@ class DatasetGenerator(object):
     def _generate_datasets(self):
         datasets = {'train': [], 'test': []}
         for dataset in self.datasets:
-            print 'Generate dataset from {0}.'.format(dataset.name)
+            print( 'Generate dataset from {0}.'.format(dataset.name) )
             # load dataset.
             dataset.load()
             # generate dataset

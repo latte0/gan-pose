@@ -119,4 +119,4 @@ venv.bak/
 *.zip*
 
 # dataset
-.create2dnet/orig_data/
+create2dnet/orig_data/

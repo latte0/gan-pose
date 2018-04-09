@@ -3,7 +3,7 @@ import os
 import cv2
 from scipy.io import loadmat
 
-from modules.datasets.common.dataset import Dataset
+from datasets.common.dataset import Dataset
 
 
 class LSPETDataset(Dataset):

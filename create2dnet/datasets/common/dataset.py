@@ -2,8 +2,6 @@ import os
 import zipfile
 import wget
 
-from modules.errors import FileNotFoundError
-
 
 class Dataset(object):
 

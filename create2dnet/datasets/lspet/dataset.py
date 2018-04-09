@@ -16,20 +16,20 @@ class LSPETDataset(Dataset):
     def __init__(self, path='orig_data'):
         super(LSPETDataset, self).__init__(
             'lspet_dataset',
-            'http://www.comp.leeds.ac.uk/mat4saj/lspet_dataset.zip', path)
+            'http://sam.johnson.io/research/lspet_dataset.zip', path)
 
     def _get_extract_path(self):
-        return os.path.join(self.path, self.name)
+        return self.path 
 
     def _load_joints(self):
-        path = os.path.join(self.path, self.name, 'joints.mat')
+        path = os.path.join(self.path , 'joints.mat')
         raw_joints = loadmat(path)['joints']
         joints = raw_joints.transpose(2, 0, 1)
         return joints
 
     def _get_image(self, i):
         image_file = 'im{0:05d}.jpg'.format(i + 1)
-        path = os.path.join(self.path, self.name, 'images', image_file)
+        path = os.path.join(self.path, 'images', image_file)
         image = cv2.imread(path)
         return image_file, image
 
